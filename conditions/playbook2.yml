@@ -1,0 +1,35 @@
+---
+- hosts: servera.lab.example.com
+  remote_user: root
+  become: true
+  tasks:
+    - name: to install a pkg
+      yum:
+        name: ex300-server
+        state: present
+      ignore_errors: yes
+      register: poutput
+    - name: to enable and start the service
+      service:
+        name: ex300-server
+        state: started
+      ignore_errors: yes
+      register: soutput
+    - name: to display poutput
+      debug:
+        var: poutput
+    - name: to display soutput
+      debug:
+        var: soutput
+    - name: to display poutout with condition
+      when: poutput.failed == true
+      debug:
+        msg: package installation is failed
+    - name: to display poutout with condition
+      when: soutput.failed == true
+      debug:
+        msg: service is failed as it does not exists
+    - name: to display the status of playbook
+      when: poutput.failed == true and soutput == true
+      debug:
+        msg: playbook is aborted 

@@ -1,0 +1,10 @@
+---
+- hosts: serverb.lab.example.com
+  remote_user: root
+  tasks:
+    - name: to create an archive if the server in group list
+      archive:
+        path: /etc/passwd
+        dest: /tmp/file1.tar.gz
+        format: gz
+      when: inventory_hostname in groups["databases"]

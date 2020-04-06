@@ -1,0 +1,16 @@
+---
+- hosts: servera.lab.example.com
+  vars:
+    serv: yes
+  remote_user: root
+  tasks:
+    - name: to install a pkg
+      yum:
+        name: vsftpd
+        state: latest
+    - name: to start and enable mutt service
+      service:
+        name: vsftpd
+        state: started
+        enabled: true
+      when: serv

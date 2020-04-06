@@ -1,0 +1,11 @@
+---
+- hosts: serverb.lab.example.com
+  remote_user: root
+  become: true
+  tasks:
+    - name: to copy hosts file 
+      copy:
+        src: /etc/hosts
+        dest: /tmp/file1
+      when: ansible_distribution == "RedHat" and ansible_distribution_version == "8.0"
+
